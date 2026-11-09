@@ -1,0 +1,2565 @@
+octype html>
+<html>
+
+<head>
+  <meta charset=utf8>
+  <meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <style>
+    :root {
+      color-scheme: light;
+      box-sizing: border-box;
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px)
+    }
+
+    html {
+      scroll-padding-top: env(safe-area-inset-top, 0px)
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font: 14px -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #fff;
+      color: #000
+    }
+
+    img {
+      max-width: 100%
+    }
+
+    [hidden]:not([hidden=until-found i]) {
+      display: none !important
+    }
+  </style>
+</head>
+
+<body>
+  <title>DSS BU</title>
+  <meta name="claude:viewport-fit-sides" content="cover">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=DM+Sans:wght@400;500;700&family=DM+Mono:wght@500&display=swap">
+  <style>
+    /* Layout concept: sticker-board playground. Thick ink outlines, hard offset shadows, tilted stat stickers,
+   a live scatter plot in the hero, and a predict-the-score game built from the club's own event format. */
+    :root {
+      --bg: #F4F1FF;
+      --surface: #FFFFFF;
+      --fg: #17123B;
+      --muted: #5B5486;
+      --line: #17123B;
+      --shadow: #17123B;
+      --pink: #FF5C93;
+      --yellow: #FFD23F;
+      --mint: #2EE6A6;
+      --sky: #7FD1FF;
+      --lilac: #B9A6FF;
+      --orange: #FF9F5A;
+      --ink: #17123B;
+      --sky-a: #FFD3E6;
+      --sky-b: #FFE9A8;
+      --sun: #FFD23F;
+      --hill-far: #CDBFFF;
+      --hill-mid: #8FE9C9;
+      --hill-near: #5BD9A8;
+      --tree: #2CBF8A;
+      --lake: #7FD1FF;
+      --cloud: #FFFFFF;
+      --bldg: #FFFFFF;
+      --font-display: "Bricolage Grotesque", "Arial Black", system-ui, sans-serif;
+      --font-body: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+      --font-mono: "DM Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #13102B;
+        --surface: #1F1B47;
+        --fg: #F4F1FF;
+        --muted: #B3ACDB;
+        --line: #F4F1FF;
+        --shadow: #05030F;
+        --sky-a: #2E2370;
+        --sky-b: #C4568C;
+        --sun: #FFB86B;
+        --hill-far: #4B3D9B;
+        --hill-mid: #2B6F86;
+        --hill-near: #1D4D5E;
+        --tree: #1E7C6B;
+        --lake: #3F7FC0;
+        --cloud: #6A59B8;
+        --bldg: #2F2872;
+        color-scheme: dark;
+      }
+    }
+
+    :root[data-theme="dark"] {
+      --bg: #13102B;
+      --surface: #1F1B47;
+      --fg: #F4F1FF;
+      --muted: #B3ACDB;
+      --line: #F4F1FF;
+      --shadow: #05030F;
+      --sky-a: #2E2370;
+      --sky-b: #C4568C;
+      --sun: #FFB86B;
+      --hill-far: #4B3D9B;
+      --hill-mid: #2B6F86;
+      --hill-near: #1D4D5E;
+      --tree: #1E7C6B;
+      --lake: #3F7FC0;
+      --cloud: #6A59B8;
+      --bldg: #2F2872;
+      color-scheme: dark;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--font-body);
+      font-size: 17px;
+      line-height: 1.6;
+      padding-left: max(16px, env(safe-area-inset-left, 0px));
+      padding-right: max(16px, env(safe-area-inset-right, 0px));
+      padding-block: 0 48px;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0 0 auto;
+      height: env(safe-area-inset-top, 0px);
+      z-index: 30;
+      background: var(--bg);
+    }
+
+    .wrap {
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      font-family: var(--font-display);
+      margin: 0;
+      text-wrap: balance;
+      line-height: 1;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--fg);
+      outline-offset: 3px;
+      border-radius: 6px;
+    }
+
+    section {
+      scroll-margin-top: 84px;
+    }
+
+    /* ---------- nav ---------- */
+    nav {
+      position: sticky;
+      top: env(safe-area-inset-top, 0px);
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 0;
+      background: var(--bg);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.25rem;
+    }
+
+    .logo b {
+      background: var(--yellow);
+      color: var(--ink);
+      border: 2.5px solid var(--line);
+      border-radius: 10px;
+      padding: 2px 9px;
+      transform: rotate(-4deg);
+      box-shadow: 3px 3px 0 var(--shadow);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 6px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 2.5px solid transparent;
+    }
+
+    .nav-links a:hover {
+      border-color: var(--line);
+      background: var(--surface);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      font: 700 1rem/1 var(--font-body);
+      color: var(--ink);
+      background: var(--pink);
+      border: 2.5px solid var(--line);
+      border-radius: 14px;
+      padding: 13px 20px;
+      box-shadow: 4px 4px 0 var(--shadow);
+      transition: transform .12s, box-shadow .12s;
+    }
+
+    .btn:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 var(--shadow);
+    }
+
+    .btn:active {
+      transform: translate(3px, 3px);
+      box-shadow: 1px 1px 0 var(--shadow);
+    }
+
+    .btn.mint {
+      background: var(--mint);
+    }
+
+    .btn.yellow {
+      background: var(--yellow);
+    }
+
+    .btn.plain {
+      background: var(--surface);
+      color: var(--fg);
+    }
+
+    .btn[disabled] {
+      opacity: .6;
+      cursor: default;
+    }
+
+    /* ---------- hero ---------- */
+    .hero {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 40px;
+      align-items: center;
+      padding: 40px 0 calc(var(--scene-h) * .64 + 24px);
+      --scene-h: calc(max(100vw, 900px) * .229);
+    }
+
+    .hero>* {
+      min-width: 0;
+    }
+
+    .kicker {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: .85rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      background: var(--mint);
+      color: var(--ink);
+      border: 2.5px solid var(--line);
+      border-radius: 999px;
+      padding: 5px 14px;
+      margin-bottom: 22px;
+    }
+
+    h1 {
+      font-weight: 800;
+      font-size: clamp(2.7rem, 7.2vw, 5.6rem);
+      letter-spacing: -.03em;
+    }
+
+    h1 .hl {
+      display: inline-block;
+      color: var(--ink);
+      border: 3px solid var(--line);
+      border-radius: 14px;
+      padding: 0 .16em;
+      margin: .06em 0;
+      box-shadow: 5px 5px 0 var(--shadow);
+    }
+
+    h1 .hl.a {
+      background: var(--yellow);
+      transform: rotate(-2.5deg);
+    }
+
+    h1 .hl.b {
+      background: var(--sky);
+      transform: rotate(1.5deg);
+    }
+
+    .lede {
+      font-size: 1.2rem;
+      color: var(--muted);
+      max-width: 34rem;
+      margin: 26px 0 30px;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .plot-card {
+      position: relative;
+      background: var(--surface);
+      border: 3px solid var(--line);
+      border-radius: 24px;
+      box-shadow: 8px 8px 0 var(--shadow);
+      overflow: hidden;
+      transform: rotate(1.5deg);
+    }
+
+    .plot-card canvas {
+      display: block;
+      width: 100%;
+      height: 400px;
+      touch-action: pan-y;
+    }
+
+    .plot-bar {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      font-family: var(--font-mono);
+      font-size: .78rem;
+      padding: 10px 16px;
+      border-bottom: 3px solid var(--line);
+      background: var(--lilac);
+      color: var(--ink);
+    }
+
+    .plot-bar b,
+    .hud b {
+      font-weight: 500;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .stage {
+      position: relative;
+    }
+
+    .overlay {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 16px;
+    }
+
+    .overlay::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: var(--surface);
+      opacity: .8;
+    }
+
+    .ov-panel {
+      position: relative;
+      max-width: 300px;
+      text-align: center;
+      background: var(--yellow);
+      color: var(--ink);
+      border: 3px solid var(--line);
+      border-radius: 18px;
+      padding: 22px 20px;
+      box-shadow: 5px 5px 0 var(--shadow);
+    }
+
+    .ov-panel h3 {
+      font-weight: 800;
+      font-size: 1.9rem;
+      letter-spacing: -.02em;
+      margin-bottom: 10px;
+    }
+
+    .ov-panel p {
+      font-size: .95rem;
+      margin-bottom: 16px;
+    }
+
+    .ov-panel .btn {
+      background: var(--ink);
+      color: #fff;
+      border-color: var(--ink);
+    }
+
+    .hud {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px 18px;
+      padding: 10px 16px;
+      border-top: 3px solid var(--line);
+      font-family: var(--font-mono);
+      font-size: .78rem;
+    }
+
+    .acc {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1 1 200px;
+      min-width: 0;
+    }
+
+    .bar {
+      flex: 1;
+      height: 12px;
+      border: 2px solid var(--line);
+      border-radius: 999px;
+      overflow: hidden;
+      background: var(--surface);
+      min-width: 40px;
+    }
+
+    .bar i {
+      display: block;
+      height: 100%;
+      width: 100%;
+      background: var(--mint);
+      transition: width .2s, background .2s;
+    }
+
+    .acc b {
+      min-width: 4ch;
+      text-align: right;
+    }
+
+    .plot-cap {
+      padding-right: 116px !important;
+      font-family: var(--font-mono);
+      font-size: .78rem;
+      padding: 10px 16px;
+      border-top: 3px solid var(--line);
+      color: var(--muted);
+    }
+
+    /* ---------- marquee ---------- */
+    .marquee {
+      margin: 0 calc(50% - 50vw);
+      border-block: 3px solid var(--line);
+      background: var(--yellow);
+      color: var(--ink);
+      overflow: hidden;
+      transform: rotate(-1deg);
+    }
+
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: slide 28s linear infinite;
+    }
+
+    .marquee span {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.5rem;
+      padding: 12px 22px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .marquee span::after {
+      content: "✦";
+      margin-left: 44px;
+    }
+
+    @keyframes slide {
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    /* ---------- section heads ---------- */
+    .block {
+      position: relative;
+      padding: 88px 0 0;
+    }
+
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: .85rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    .block h2 {
+      font-weight: 800;
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      letter-spacing: -.025em;
+      max-width: 18ch;
+    }
+
+    .block .sub {
+      color: var(--muted);
+      max-width: 40rem;
+      margin-top: 16px;
+    }
+
+    /* ---------- about ---------- */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: start;
+      margin-top: 34px;
+    }
+
+    .about-grid>* {
+      min-width: 0;
+    }
+
+    .about-grid p+p {
+      margin-top: 16px;
+    }
+
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+    }
+
+    .stat {
+      flex: 1 1 140px;
+      border: 3px solid var(--line);
+      border-radius: 18px;
+      padding: 18px 16px;
+      box-shadow: 5px 5px 0 var(--shadow);
+      color: var(--ink);
+      transition: transform .2s;
+    }
+
+    .stat:nth-child(1) {
+      background: var(--pink);
+      transform: rotate(-3deg);
+    }
+
+    .stat:nth-child(2) {
+      background: var(--mint);
+      transform: rotate(2deg);
+    }
+
+    .stat:nth-child(3) {
+      background: var(--orange);
+      transform: rotate(-1.5deg);
+    }
+
+    .stat:hover {
+      transform: rotate(0) scale(1.04);
+    }
+
+    .stat b {
+      display: block;
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 4vw, 3rem);
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .stat span {
+      font-weight: 700;
+      font-size: .95rem;
+    }
+
+    .pillars {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 20px;
+      margin-top: 40px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 2.5px solid var(--line);
+      border-radius: 18px;
+      box-shadow: 5px 5px 0 var(--shadow);
+      transition: transform .15s, box-shadow .15s;
+    }
+
+    .card:hover {
+      transform: translate(-2px, -3px) rotate(-.6deg);
+      box-shadow: 8px 8px 0 var(--shadow);
+    }
+
+    .pillar {
+      padding: 22px;
+      min-width: 0;
+    }
+
+    .pillar i {
+      display: inline-block;
+      font-style: normal;
+      font-family: var(--font-mono);
+      font-size: .8rem;
+      font-weight: 500;
+      color: var(--ink);
+      border: 2px solid var(--line);
+      border-radius: 999px;
+      padding: 3px 12px;
+      margin-bottom: 14px;
+    }
+
+    .pillar h3 {
+      font-size: 1.4rem;
+      margin-bottom: 8px;
+    }
+
+    .pillar p {
+      color: var(--muted);
+      font-size: .98rem;
+    }
+
+    /* ---------- board ---------- */
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 24px;
+      align-items: center;
+      margin: 32px 0 26px;
+    }
+
+    .seg {
+      display: inline-flex;
+      border: 3px solid var(--line);
+      border-radius: 16px;
+      background: var(--surface);
+      box-shadow: 4px 4px 0 var(--shadow);
+      overflow: hidden;
+      max-width: 100%;
+    }
+
+    .seg button {
+      font: 700 .95rem/1.2 var(--font-body);
+      color: var(--fg);
+      background: transparent;
+      border: 0;
+      padding: 12px 18px;
+      cursor: pointer;
+    }
+
+    .seg button+button {
+      border-left: 3px solid var(--line);
+    }
+
+    .seg button[aria-pressed="true"] {
+      background: var(--yellow);
+      color: var(--ink);
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chip {
+      font: 500 .85rem/1 var(--font-mono);
+      color: var(--fg);
+      background: var(--surface);
+      border: 2.5px solid var(--line);
+      border-radius: 999px;
+      padding: 8px 14px;
+      cursor: pointer;
+    }
+
+    .chip[aria-pressed="true"] {
+      background: var(--fg);
+      color: var(--bg);
+    }
+
+    .people {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 20px;
+    }
+
+    .person {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .person:nth-child(3n+1) {
+      --tilt: -.8deg;
+    }
+
+    .person:nth-child(3n+2) {
+      --tilt: .6deg;
+    }
+
+    .person:nth-child(3n) {
+      --tilt: -.3deg;
+    }
+
+    .avatar {
+      display: grid;
+      place-items: center;
+      aspect-ratio: 1;
+      overflow: hidden;
+      max-width: 100%;
+      border-bottom: 2.5px solid var(--line);
+      color: var(--ink);
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 3.4rem;
+      letter-spacing: -.02em;
+    }
+
+    .person .meta {
+      padding: 14px 16px 18px;
+      min-width: 0;
+    }
+
+    .person h4 {
+      font-size: 1.15rem;
+      line-height: 1.15;
+      margin-bottom: 6px;
+      overflow-wrap: anywhere;
+    }
+
+    .person p {
+      font-size: .88rem;
+      color: var(--muted);
+      line-height: 1.35;
+    }
+
+    .person .dept {
+      display: inline-block;
+      margin-top: 10px;
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      border: 2px solid var(--line);
+      border-radius: 999px;
+      padding: 2px 9px;
+      color: var(--ink);
+    }
+
+    /* ---------- events ---------- */
+    .feature {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      margin-top: 36px;
+      overflow: hidden;
+      border-radius: 24px;
+      border-width: 3px;
+      box-shadow: 8px 8px 0 var(--shadow);
+    }
+
+    .feature:hover {
+      transform: none;
+      box-shadow: 8px 8px 0 var(--shadow);
+    }
+
+    .feature>* {
+      min-width: 0;
+    }
+
+    .feature .left {
+      padding: 30px;
+      background: var(--lilac);
+      color: var(--ink);
+      border-right: 3px solid var(--line);
+    }
+
+    .feature .tag {
+      font-family: var(--font-mono);
+      font-size: .8rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      background: var(--ink);
+      color: #fff;
+      border-radius: 999px;
+      padding: 4px 12px;
+      display: inline-block;
+    }
+
+    .feature h3 {
+      font-weight: 800;
+      font-size: clamp(2rem, 4.4vw, 3.2rem);
+      letter-spacing: -.02em;
+      margin: 16px 0 8px;
+    }
+
+    .feature .quote {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 1.2rem;
+      margin-bottom: 14px;
+    }
+
+    .feature .left p {
+      font-size: .98rem;
+    }
+
+    .when {
+      margin-top: 18px;
+      font-family: var(--font-mono);
+      font-size: .9rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .when span {
+      background: #fff;
+      border: 2.5px solid var(--ink);
+      border-radius: 10px;
+      padding: 6px 10px;
+    }
+
+    .game {
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      background: var(--surface);
+    }
+
+    .game h4 {
+      font-size: 1.5rem;
+    }
+
+    .game p {
+      color: var(--muted);
+      font-size: .95rem;
+    }
+
+    .dials {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .dial {
+      border: 2.5px solid var(--line);
+      border-radius: 16px;
+      padding: 12px;
+      text-align: center;
+      min-width: 0;
+    }
+
+    .dial small {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--muted);
+    }
+
+    .dial output {
+      display: block;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 3rem;
+      line-height: 1.1;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .dial.you {
+      background: var(--yellow);
+      color: var(--ink);
+    }
+
+    .dial.you small {
+      color: var(--ink);
+    }
+
+    .dial.judge {
+      background: var(--sky);
+      color: var(--ink);
+    }
+
+    .dial.judge small {
+      color: var(--ink);
+    }
+
+    input[type=range] {
+      width: 100%;
+      accent-color: var(--pink);
+      height: 28px;
+    }
+
+    .verdict {
+      min-height: 3.2em;
+      font-weight: 700;
+    }
+
+    .verdict.win {
+      color: var(--fg);
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      line-height: 1.15;
+    }
+
+    .score {
+      font-family: var(--font-mono);
+      font-size: .8rem;
+      color: var(--muted);
+    }
+
+    /* ---------- connect ---------- */
+    .connect {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 24px;
+      margin-top: 36px;
+    }
+
+    .connect>* {
+      min-width: 0;
+    }
+
+    .join {
+      position: relative;
+      padding: 32px 32px 128px;
+      background: var(--mint);
+      color: var(--ink);
+      border-width: 3px;
+      border-radius: 24px;
+      box-shadow: 8px 8px 0 var(--shadow);
+    }
+
+    .join:hover {
+      transform: none;
+      box-shadow: 8px 8px 0 var(--shadow);
+    }
+
+    .join h3 {
+      font-weight: 800;
+      font-size: clamp(1.9rem, 4vw, 2.8rem);
+      letter-spacing: -.02em;
+      margin-bottom: 14px;
+    }
+
+    .join p {
+      margin-bottom: 22px;
+      max-width: 32rem;
+    }
+
+    .join .btn {
+      background: var(--ink);
+      color: #fff;
+      border-color: var(--ink);
+      box-shadow: 4px 4px 0 var(--shadow);
+    }
+
+    .links {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 16px 18px;
+      text-decoration: none;
+    }
+
+    .link strong {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+    }
+
+    .link span {
+      font-family: var(--font-mono);
+      font-size: .85rem;
+      color: var(--muted);
+      overflow-wrap: anywhere;
+      text-align: right;
+    }
+
+    .mail {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 16px 18px;
+    }
+
+    .mail code {
+      font-family: var(--font-mono);
+      font-size: .9rem;
+      overflow-wrap: anywhere;
+      user-select: all;
+    }
+
+    .mail .btn {
+      padding: 9px 14px;
+      font-size: .9rem;
+      box-shadow: 3px 3px 0 var(--shadow);
+    }
+
+    footer {
+      margin-top: 72px;
+      padding-top: 24px;
+      border-top: 3px solid var(--line);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      font-size: .92rem;
+    }
+
+
+    .avatar img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* ---------- mascot: Dotty ---------- */
+    .plot-wrap {
+      position: relative;
+      z-index: 1;
+      min-width: 0;
+    }
+
+    .hero-copy {
+      position: relative;
+      z-index: 1;
+    }
+
+    .mascot {
+      width: 96px;
+    }
+
+    .bob {
+      display: block;
+    }
+
+    .dotty {
+      display: block;
+      width: 100%;
+      height: auto;
+      overflow: visible;
+    }
+
+    .dotty .e,
+    .dotty .m {
+      display: none;
+    }
+
+    .dotty.idle .e-idle,
+    .dotty.idle .m-idle,
+    .dotty.happy .e-happy,
+    .dotty.happy .m-happy,
+    .dotty.ouch .e-ouch,
+    .dotty.ouch .m-ouch,
+    .dotty.sad .e-sad,
+    .dotty.sad .m-sad {
+      display: inline;
+    }
+
+    .mascot-hero {
+      position: absolute;
+      right: 20px;
+      bottom: -64px;
+      z-index: 3;
+    }
+
+    .bubble {
+      position: absolute;
+      z-index: 3;
+      max-width: 190px;
+      background: var(--surface);
+      color: var(--fg);
+      border: 2.5px solid var(--line);
+      border-radius: 14px;
+      padding: 7px 11px;
+      font-size: .82rem;
+      font-weight: 700;
+      line-height: 1.3;
+      box-shadow: 3px 3px 0 var(--shadow);
+    }
+
+    .bubble::after {
+      content: "";
+      position: absolute;
+      right: -8px;
+      bottom: 12px;
+      width: 12px;
+      height: 12px;
+      background: var(--surface);
+      border-right: 2.5px solid var(--line);
+      border-top: 2.5px solid var(--line);
+      transform: rotate(45deg);
+    }
+
+    .bubble.left::after {
+      left: -8px;
+      right: auto;
+      border: 0;
+      border-left: 2.5px solid var(--line);
+      border-bottom: 2.5px solid var(--line);
+    }
+
+    #heroBubble {
+      right: 124px;
+      bottom: -54px;
+    }
+
+    .mascot-side {
+      position: absolute;
+      right: 8px;
+      top: 72px;
+      width: 112px;
+      transform: rotate(6deg);
+    }
+
+    .side-bubble {
+      right: 132px;
+      top: 100px;
+    }
+
+    .mascot-join {
+      position: absolute;
+      right: 20px;
+      bottom: -22px;
+      width: 96px;
+      transform: rotate(-5deg);
+    }
+
+    .join-bubble {
+      right: 124px;
+      bottom: 24px;
+    }
+
+    @media (max-width: 1000px) {
+
+      .mascot-side,
+      .side-bubble {
+        display: none;
+      }
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .bob {
+        animation: bob 3s ease-in-out infinite;
+      }
+
+      .dotty .arm-r {
+        transform-origin: 104px 82px;
+        animation: wave 1.5s ease-in-out infinite;
+      }
+
+      .dotty.ouch .arm-r,
+      .dotty.sad .arm-r {
+        animation: none;
+      }
+
+      .dotty.happy {
+        animation: hop .45s;
+      }
+
+      .dotty.ouch {
+        animation: shake .35s;
+      }
+
+      @keyframes bob {
+
+        0%,
+        100% {
+          transform: none;
+        }
+
+        50% {
+          transform: translateY(-6px);
+        }
+      }
+
+      @keyframes wave {
+
+        0%,
+        100% {
+          transform: rotate(0);
+        }
+
+        50% {
+          transform: rotate(-16deg);
+        }
+      }
+
+      @keyframes hop {
+        0% {
+          transform: none;
+        }
+
+        40% {
+          transform: translateY(-16px) scale(1.06);
+        }
+
+        100% {
+          transform: none;
+        }
+      }
+
+      @keyframes shake {
+
+        0%,
+        100% {
+          transform: none;
+        }
+
+        25% {
+          transform: translateX(-6px) rotate(-4deg);
+        }
+
+        75% {
+          transform: translateX(6px) rotate(4deg);
+        }
+      }
+    }
+
+    @media (max-width: 700px) {
+      .bubble {
+        max-width: 150px;
+      }
+
+      #heroBubble {
+        right: 118px;
+      }
+
+      .join-bubble {
+        right: 112px;
+      }
+    }
+
+
+    /* ---------- scenic hero ---------- */
+    .scene {
+      position: absolute;
+      z-index: 0;
+      left: 50%;
+      bottom: 0;
+      width: 100vw;
+      height: calc(var(--scene-h) + 120px);
+      transform: translateX(-50%);
+      overflow: hidden;
+      pointer-events: none;
+      background: linear-gradient(to bottom, transparent 0, var(--sky-a) 52%, var(--sky-b) 100%);
+    }
+
+    .scene svg {
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      width: max(100%, 900px);
+      height: auto;
+      aspect-ratio: 1440 / 330;
+      transform: translateX(-50%);
+      display: block;
+    }
+
+    .scene .layer {
+      will-change: transform;
+    }
+
+    .cloud {
+      animation: drift 150s linear infinite;
+    }
+
+    @keyframes drift {
+      from {
+        transform: translateX(-240px);
+      }
+
+      to {
+        transform: translateX(1720px);
+      }
+    }
+
+    .clouds {
+      position: relative;
+      margin: 80px calc(50% - 50vw) 0;
+      height: 130px;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .clouds svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .clouds+footer {
+      margin-top: 0;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .cloud {
+        animation: none;
+      }
+    }
+
+    /* ---------- journey ---------- */
+    .journey {
+      position: relative;
+      margin-top: 44px;
+    }
+
+    .jpath {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+      pointer-events: none;
+    }
+
+    .jpath path {
+      fill: none;
+      stroke-linecap: round;
+    }
+
+    #jbase {
+      stroke: var(--fg);
+      stroke-width: 4;
+      stroke-dasharray: 2 12;
+      opacity: .45;
+    }
+
+    #jwalk {
+      stroke: var(--pink);
+      stroke-width: 7;
+    }
+
+    .jwalker {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 60px;
+      z-index: 4;
+      pointer-events: none;
+      will-change: transform;
+    }
+
+    .jrow {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      min-height: 280px;
+      padding: 18px 0;
+    }
+
+    .jrow>* {
+      min-width: 0;
+    }
+
+    .jrow.left .jcard {
+      grid-column: 1;
+      margin-right: 60px;
+    }
+
+    .jrow.right .jcard {
+      grid-column: 2;
+      margin-left: 60px;
+    }
+
+    .jnode {
+      position: absolute;
+      top: 50%;
+      width: 36px;
+      height: 36px;
+      margin: -18px 0 0 -18px;
+      border: 3px solid var(--line);
+      border-radius: 50%;
+      background: var(--surface);
+      box-shadow: 3px 3px 0 var(--shadow);
+      z-index: 2;
+      transition: background .3s, transform .3s;
+    }
+
+    .jrow.left .jnode {
+      left: 76%;
+    }
+
+    .jrow.right .jnode {
+      left: 24%;
+    }
+
+    .jnode.done {
+      background: var(--c);
+      transform: scale(1.12);
+    }
+
+    .jcard {
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+      background: var(--surface);
+      border: 2.5px solid var(--line);
+      border-radius: 18px;
+      box-shadow: 5px 5px 0 var(--shadow);
+      transition: transform .15s, box-shadow .15s;
+    }
+
+    .jcard:hover {
+      transform: translate(-2px, -3px);
+      box-shadow: 8px 8px 0 var(--shadow);
+    }
+
+    .jstamp {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 12px 18px;
+      border-bottom: 2.5px solid var(--line);
+      color: var(--ink);
+    }
+
+    .jstamp b {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.5rem;
+      line-height: 1;
+    }
+
+    .jstamp span {
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      border: 2px solid var(--ink);
+      border-radius: 999px;
+      padding: 3px 10px;
+      background: rgba(255, 255, 255, .55);
+    }
+
+    .jbody {
+      padding: 16px 18px 20px;
+    }
+
+    .jbody h3 {
+      font-size: 1.45rem;
+      line-height: 1.1;
+      margin-bottom: 10px;
+    }
+
+    .jbody p {
+      color: var(--muted);
+      font-size: .96rem;
+    }
+
+    .jbody p+p {
+      margin-top: 10px;
+    }
+
+    .jbody a {
+      font-weight: 700;
+    }
+
+    .jnext {
+      background: var(--mint);
+      color: var(--ink);
+    }
+
+    .jnext .jbody p {
+      color: var(--ink);
+    }
+
+    /* ---------- the wall ---------- */
+    .sr {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+
+    .wall-compose {
+      margin-top: 30px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      max-width: 640px;
+    }
+
+    .wall-compose:hover {
+      transform: none;
+      box-shadow: 5px 5px 0 var(--shadow);
+    }
+
+    .wall-compose textarea {
+      width: 100%;
+      font: 500 1.05rem/1.45 var(--font-body);
+      color: var(--fg);
+      background: var(--bg);
+      border: 2.5px solid var(--line);
+      border-radius: 14px;
+      padding: 12px 14px;
+      resize: vertical;
+      min-height: 92px;
+    }
+
+    .wc-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px 16px;
+    }
+
+    .wc-row>div {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .swatches {
+      display: flex;
+      gap: 10px;
+    }
+
+    .swatch {
+      width: 30px;
+      height: 30px;
+      padding: 0;
+      border-radius: 50%;
+      border: 2.5px solid var(--line);
+      cursor: pointer;
+    }
+
+    .swatch[aria-pressed="true"] {
+      box-shadow: 0 0 0 3px var(--surface), 0 0 0 6px var(--line);
+    }
+
+    .wc-count,
+    .wc-status,
+    .wall-note {
+      font-family: var(--font-mono);
+      font-size: .8rem;
+      color: var(--muted);
+    }
+
+    .wall-note {
+      margin-top: 18px;
+      max-width: 40rem;
+    }
+
+    .wall {
+      margin-top: 26px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 34px 24px;
+      padding: 36px 26px 30px;
+      min-height: 240px;
+      border: 3px solid var(--line);
+      border-radius: 24px;
+      box-shadow: 8px 8px 0 var(--shadow);
+      background-color: var(--surface);
+      background-image: radial-gradient(rgba(128, 128, 128, .3) 1.5px, transparent 1.6px);
+      background-size: 22px 22px;
+    }
+
+    .pinned {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      min-width: 0;
+      padding: 24px 16px 12px;
+      color: var(--ink);
+      border: 2.5px solid var(--line);
+      border-radius: 6px 6px 16px 6px;
+      box-shadow: 4px 4px 0 var(--shadow);
+      transform: rotate(var(--r, 0deg));
+      transition: transform .15s;
+    }
+
+    .pinned:hover {
+      transform: rotate(0) scale(1.03);
+      z-index: 2;
+    }
+
+    .pinned::before {
+      content: "";
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      width: 16px;
+      height: 16px;
+      margin-left: -8px;
+      border-radius: 50%;
+      background: var(--pink);
+      border: 2.5px solid var(--ink);
+    }
+
+    .pinned p {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 1.1rem;
+      line-height: 1.3;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    .pinned .who {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: auto;
+      font-family: var(--font-mono);
+      font-size: .75rem;
+    }
+
+    .pinned .who span {
+      overflow-wrap: anywhere;
+    }
+
+    .pinned.mine {
+      outline: 3px dashed var(--ink);
+      outline-offset: 4px;
+    }
+
+    .pinned .rm {
+      font: 500 .72rem var(--font-mono);
+      color: var(--ink);
+      background: transparent;
+      border: 2px solid var(--ink);
+      border-radius: 999px;
+      padding: 1px 9px;
+      cursor: pointer;
+    }
+
+    .wall-empty {
+      grid-column: 1 / -1;
+      align-self: center;
+      text-align: center;
+      padding: 30px 10px;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.5rem;
+      color: var(--muted);
+    }
+
+    @media (max-width: 700px) {
+      .jrow {
+        grid-template-columns: 1fr;
+        min-height: 0;
+        padding: 22px 0;
+      }
+
+      .jrow.left .jcard,
+      .jrow.right .jcard {
+        grid-column: 1;
+        margin: 0 0 0 54px;
+      }
+
+      .jrow.left .jnode,
+      .jrow.right .jnode {
+        left: 20px;
+      }
+
+      .jwalker {
+        width: 48px;
+      }
+
+      .wall {
+        padding: 34px 16px 24px;
+        gap: 30px 18px;
+      }
+    }
+
+    /* ---------- load-in ---------- */
+    @media (prefers-reduced-motion: no-preference) {
+      .hero-copy>* {
+        animation: pop .6s cubic-bezier(.2, 1.4, .4, 1) both;
+      }
+
+      .hero-copy>*:nth-child(2) {
+        animation-delay: .08s;
+      }
+
+      .hero-copy>*:nth-child(3) {
+        animation-delay: .16s;
+      }
+
+      .hero-copy>*:nth-child(4) {
+        animation-delay: .24s;
+      }
+
+      @keyframes pop {
+        from {
+          transform: translateY(24px) scale(.96);
+          opacity: 0;
+        }
+
+        to {
+          transform: none;
+          opacity: 1;
+        }
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .marquee-track {
+        animation: none;
+      }
+
+      html {
+        scroll-behavior: auto;
+      }
+    }
+
+    /* ---------- narrow ---------- */
+    @media (max-width: 900px) {
+
+      .hero,
+      .about-grid,
+      .feature,
+      .connect {
+        grid-template-columns: 1fr;
+      }
+
+      .feature .left {
+        border-right: 0;
+        border-bottom: 3px solid var(--line);
+      }
+
+      .plot-card {
+        transform: none;
+      }
+
+      .plot-card canvas {
+        height: 320px;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .nav-links {
+        display: none;
+      }
+
+      .block {
+        padding-top: 64px;
+      }
+
+      .link {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .link span {
+        text-align: left;
+      }
+
+      .seg button {
+        padding: 10px 12px;
+        font-size: .88rem;
+      }
+    }
+  </style>
+
+  <div class="wrap">
+    <nav>
+      <a class="logo" href="#home" aria-label="Data Science Society, Bennett University"><b>DSS</b><span>Bennett
+          University</span></a>
+      <div class="nav-links">
+        <a href="#about">About</a><a href="#board">Board</a><a href="#events">Events</a><a href="#wall">Wall</a><a
+          href="#connect">Connect</a>
+      </div>
+      <a class="btn yellow" href="#connect">Join us</a>
+    </nav>
+
+    <header class="hero" id="home">
+      <div class="scene" aria-hidden="true">
+        <svg viewBox="0 0 1440 330" preserveAspectRatio="xMidYMax slice" focusable="false">
+          <defs>
+            <g id="cl">
+              <circle cx="28" cy="36" r="18" />
+              <circle cx="54" cy="24" r="24" />
+              <circle cx="80" cy="36" r="17" />
+              <rect x="14" y="34" width="84" height="22" rx="11" />
+            </g>
+          </defs>
+          <g class="layer" data-k=".02">
+            <circle cx="1130" cy="140" r="132" fill="var(--sun)" opacity=".22" />
+            <circle cx="1130" cy="140" r="76" fill="var(--sun)" />
+          </g>
+          <g transform="translate(0 46)">
+            <g class="cloud" style="animation-delay:-30s">
+              <use href="#cl" fill="var(--cloud)" opacity=".95" />
+            </g>
+          </g>
+          <g transform="translate(0 112) scale(.7)">
+            <g class="cloud" style="animation-duration:190s;animation-delay:-120s">
+              <use href="#cl" fill="var(--cloud)" opacity=".8" />
+            </g>
+          </g>
+          <g transform="translate(0 22) scale(1.25)">
+            <g class="cloud" style="animation-duration:230s;animation-delay:-170s">
+              <use href="#cl" fill="var(--cloud)" opacity=".9" />
+            </g>
+          </g>
+          <g class="layer" data-k=".05">
+            <path
+              d="M0 214 C120 170 240 196 360 172 C500 144 620 206 780 186 C940 166 1060 204 1200 176 C1310 156 1390 178 1440 190 L1440 340 L0 340 Z"
+              fill="var(--hill-far)" />
+          </g>
+          <g class="layer" data-k=".1">
+            <path
+              d="M0 266 C160 236 300 252 460 242 C640 230 760 264 940 252 C1100 242 1260 264 1440 246 L1440 340 L0 340 Z"
+              fill="var(--hill-mid)" />
+            <ellipse cx="1060" cy="278" rx="210" ry="20" fill="var(--lake)" />
+            <path d="M960 274 h60 M1040 282 h80 M1110 271 h50" stroke="#fff" stroke-width="3" stroke-linecap="round"
+              opacity=".6" fill="none" />
+            <g stroke="var(--line)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+              <rect x="262" y="226" width="54" height="36" rx="4" fill="var(--bldg)" />
+              <rect x="474" y="222" width="72" height="40" rx="4" fill="var(--bldg)" />
+              <rect x="310" y="206" width="170" height="56" rx="4" fill="var(--bldg)" />
+              <rect x="372" y="150" width="46" height="62" rx="4" fill="var(--bldg)" />
+              <path d="M366 152 L395 118 L424 152 Z" fill="var(--pink)" />
+              <circle cx="395" cy="176" r="12" fill="var(--bldg)" />
+              <path d="M395 176 V168 M395 176 L401 179" fill="none" stroke-width="2.5" />
+              <rect x="326" y="220" width="14" height="14" fill="var(--yellow)" stroke-width="2.5" />
+              <rect x="348" y="220" width="14" height="14" fill="var(--yellow)" stroke-width="2.5" />
+              <rect x="428" y="220" width="14" height="14" fill="var(--yellow)" stroke-width="2.5" />
+              <rect x="450" y="220" width="14" height="14" fill="var(--yellow)" stroke-width="2.5" />
+              <rect x="386" y="238" width="18" height="24" fill="var(--hill-near)" stroke-width="2.5" />
+              <rect x="490" y="236" width="12" height="12" fill="var(--yellow)" stroke-width="2.5" />
+              <rect x="518" y="236" width="12" height="12" fill="var(--yellow)" stroke-width="2.5" />
+              <rect x="274" y="238" width="12" height="12" fill="var(--yellow)" stroke-width="2.5" />
+            </g>
+            <g stroke="var(--line)" stroke-width="3">
+              <rect x="117" y="240" width="6" height="20" fill="var(--line)" />
+              <circle cx="120" cy="226" r="20" fill="var(--tree)" />
+              <rect x="173" y="246" width="5" height="16" fill="var(--line)" />
+              <circle cx="176" cy="234" r="15" fill="var(--tree)" />
+              <rect x="637" y="244" width="6" height="20" fill="var(--line)" />
+              <circle cx="640" cy="230" r="19" fill="var(--tree)" />
+              <rect x="697" y="248" width="5" height="16" fill="var(--line)" />
+              <circle cx="700" cy="236" r="15" fill="var(--tree)" />
+              <rect x="857" y="246" width="6" height="20" fill="var(--line)" />
+              <circle cx="860" cy="232" r="19" fill="var(--tree)" />
+              <rect x="1297" y="240" width="6" height="22" fill="var(--line)" />
+              <circle cx="1300" cy="226" r="21" fill="var(--tree)" />
+            </g>
+          </g>
+          <g class="layer" data-k=".16">
+            <path
+              d="M0 306 C200 282 380 300 560 292 C760 282 900 308 1100 298 C1260 290 1380 302 1440 296 L1440 340 L0 340 Z"
+              fill="var(--hill-near)" />
+          </g>
+        </svg>
+      </div>
+      <div class="hero-copy">
+        <span class="kicker">Data Science Society · BU</span>
+        <h1>Your gateway to <span class="hl a">AI</span> &amp; <span class="hl b">Data Science</span> at BU.</h1>
+        <p class="lede">Hands-on projects, research workshops and competitions for Bennett students who want to explore
+          AI, machine learning and data science. Built and run by students.</p>
+        <div class="cta-row">
+          <a class="btn" href="#connect">Join the community</a>
+          <a class="btn plain" href="#board">Meet the board</a>
+        </div>
+      </div>
+      <div class="plot-wrap">
+        <div class="bubble" id="heroBubble">Hi, I'm Dotty! Think you can spot an outlier?</div>
+        <div class="mascot mascot-hero" id="heroMascot" data-dotty="idle"></div>
+        <div class="plot-card">
+          <div class="plot-bar"><span>outlier_hunt.py</span><span>score <b id="hudScore">0</b> · <b
+                id="hudTime">30</b>s</span></div>
+          <div class="stage">
+            <canvas id="plot"
+              aria-label="Outlier Hunt game. Click the pink diamonds that sit away from the dashed trend line before their ring runs out."></canvas>
+            <div class="overlay" id="overlay">
+              <div class="ov-panel">
+                <h3 id="ovTitle">Outlier Hunt</h3>
+                <p id="ovText" aria-live="polite">Pink diamonds are outliers. Click them before their ring runs out.
+                  Clicking a good dot on the trend line hurts your model.</p>
+                <button type="button" class="btn" id="startGame">Start the hunt</button>
+              </div>
+            </div>
+          </div>
+          <div class="hud">
+            <div class="acc"><span>model accuracy</span>
+              <div class="bar"><i id="accFill"></i></div><b id="accText">100%</b>
+            </div>
+            <div>combo <b id="hudCombo">x1</b> · best <b id="hudBest">0</b></div>
+          </div>
+          <div class="plot-cap">30 seconds. Catch outliers in a row to raise your combo multiplier.</div>
+        </div>
+      </div>
+    </header>
+
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track" id="marquee"></div>
+    </div>
+
+    <section class="block" id="about">
+      <div class="bubble side-bubble">Yes, we're friendly. Come say hi!</div>
+      <div class="mascot mascot-side" data-dotty="happy"></div>
+      <p class="eyebrow">About the society</p>
+      <h2>Raw curiosity in. Real-world intelligence out.</h2>
+      <div class="about-grid">
+        <div>
+          <p>The Data Science Society is the student-led home for AI, machine learning and data science at Bennett
+            University. We learn by building things, entering competitions and running workshops where nobody has to
+            pretend they already know it all.</p>
+          <p>Our mission is to foster learning, drive innovation and promote ethical data practices. We grow a community
+            that works through real problems together and turns data into insight.</p>
+        </div>
+        <div class="stats">
+          <div class="stat"><b data-count="500" data-suffix="+">500+</b><span>Active members</span></div>
+          <div class="stat"><b data-count="15" data-suffix="+">15+</b><span>Flagship events</span></div>
+          <div class="stat"><b data-count="100" data-suffix="%">100%</b><span>Student led</span></div>
+        </div>
+      </div>
+      <div class="pillars">
+        <div class="card pillar"><i style="background:var(--pink)">learn</i>
+          <h3>Learn by doing</h3>
+          <p>Workshops on no-code AI, machine learning and data skills that start from where you are.</p>
+        </div>
+        <div class="card pillar"><i style="background:var(--yellow)">compete</i>
+          <h3>Compete for fun</h3>
+          <p>Data Quest rounds and ideathons that reward creative problem solving as much as raw skill.</p>
+        </div>
+        <div class="card pillar"><i style="background:var(--sky)">research</i>
+          <h3>Meet the field</h3>
+          <p>Conferences and speaker sessions with people working on AI at Google, AWS and beyond.</p>
+        </div>
+        <div class="card pillar"><i style="background:var(--mint)">ethics</i>
+          <h3>Use data well</h3>
+          <p>Responsible AI and ethical data practice are part of how we teach, not an afterthought.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="board">
+      <p class="eyebrow">The people behind the society</p>
+      <h2>Meet the board.</h2>
+      <p class="sub">The executive team shaping DSS this year, and the board that paved the way before them.</p>
+      <div class="controls">
+        <div class="seg" role="group" aria-label="Choose a tenure">
+          <button type="button" id="t-cur" aria-pressed="true">2026–27 · 24</button>
+          <button type="button" id="t-prev" aria-pressed="false">2025–26 · 14</button>
+        </div>
+        <div class="chips" id="chips" role="group" aria-label="Filter by department"></div>
+      </div>
+      <div class="people" id="people"></div>
+    </section>
+
+    <section class="block" id="events">
+      <p class="eyebrow">Hackathons, workshops and talks</p>
+      <h2>The journey so far.</h2>
+      <p class="sub">scroll down and follow Dotty from the very first Bennett's Got Data to today. psst, every stop is a
+        real event.</p>
+      <div class="journey" id="journey">
+        <svg class="jpath" id="jpath" aria-hidden="true" focusable="false">
+          <path id="jbase" />
+          <path id="jwalk" />
+        </svg>
+        <div class="jwalker" id="jwalker" data-dotty="idle"></div>
+        <div id="jrows"></div>
+      </div>
+    </section>
+
+    <section class="block" id="wall">
+      <p class="eyebrow">Say something nice</p>
+      <h2>The wall.</h2>
+      <p class="sub">pin a short note for the club. a shout-out, a question, a bad data pun. one note each, and you can
+        change it any time.</p>
+      <div class="card wall-compose" id="wallForm" hidden>
+        <label class="sr" for="wallText">Your note</label>
+        <textarea id="wallText" maxlength="140" rows="3" placeholder="what do you want the society to know?"></textarea>
+        <div class="wc-row">
+          <div class="swatches" id="wallColors" role="group" aria-label="Note color"></div><span class="wc-count"
+            id="wallCount">0/140</span>
+        </div>
+        <div class="wc-row">
+          <div><button type="button" class="btn" id="wallPin">Pin it</button><button type="button" class="btn plain"
+              id="wallDown" hidden>Take mine down</button></div><span class="wc-status" id="wallStatus"
+            aria-live="polite"></span>
+        </div>
+      </div>
+      <p class="wall-note" id="wallNote">The wall wakes up once this page can reach its shared storage. People signed in
+        to claude.ai with access to the page can pin notes.</p>
+      <div class="wall" id="wallBoard" aria-live="polite">
+        <div class="wall-empty">The wall is empty. Be the first to pin a note.</div>
+      </div>
+    </section>
+
+    <section class="block" id="connect">
+      <p class="eyebrow">Get involved</p>
+      <h2>Come hang out with us.</h2>
+      <div class="connect">
+        <div class="card join">
+          <h3>Join the DSS WhatsApp hub.</h3>
+          <p>Be first to hear about hackathons, AI and ML bootcamps, speaker sessions and research collabs. No spam,
+            just the good stuff.</p>
+          <a class="btn" href="https://chat.whatsapp.com/Ebo9Z95cFwR3gltM2LwX2u?s=cl&p=i&mlu=4&ilr=4" target="_blank"
+            rel="noopener">Join the official group</a>
+          <div class="bubble join-bubble">See you in the group!</div>
+          <div class="mascot mascot-join" data-dotty="happy"></div>
+        </div>
+        <div class="links">
+          <a class="card link" href="https://www.instagram.com/dss_bu" target="_blank"
+            rel="noopener"><strong>Instagram</strong><span>@dss_bu</span></a>
+          <a class="card link" href="https://www.linkedin.com/company/dss-bu/" target="_blank"
+            rel="noopener"><strong>LinkedIn</strong><span>dss-bu</span></a>
+          <a class="card link" href="https://github.com/dss-bu" target="_blank"
+            rel="noopener"><strong>GitHub</strong><span>dss-bu</span></a>
+          <div class="card mail">
+            <code id="mailText">datascienceclub@bennett.edu.in</code>
+            <button type="button" class="btn plain" id="copyMail">Copy email</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="clouds" aria-hidden="true">
+      <svg viewBox="0 0 1440 130" preserveAspectRatio="xMidYMax slice" focusable="false">
+        <g transform="translate(0 40) scale(1.1)">
+          <g class="cloud" style="animation-duration:170s;animation-delay:-20s">
+            <use href="#cl" fill="var(--cloud)" opacity=".9" />
+          </g>
+        </g>
+        <g transform="translate(0 66) scale(.8)">
+          <g class="cloud" style="animation-duration:210s;animation-delay:-90s">
+            <use href="#cl" fill="var(--cloud)" opacity=".75" />
+          </g>
+        </g>
+        <g transform="translate(0 22) scale(1.4)">
+          <g class="cloud" style="animation-duration:260s;animation-delay:-200s">
+            <use href="#cl" fill="var(--cloud)" opacity=".85" />
+          </g>
+        </g>
+        <g transform="translate(0 74) scale(1)">
+          <g class="cloud" style="animation-duration:190s;animation-delay:-150s">
+            <use href="#cl" fill="var(--cloud)" opacity=".8" />
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <footer>
+      <span>Official Data Science &amp; Artificial Intelligence Society of Bennett University, Greater Noida.</span>
+      <span>© 2026 Data Science Society, Bennett University</span>
+    </footer>
+  </div>
+
+  <script>
+    (function () {
+      var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      /* ---------- marquee ---------- */
+      var words = ["Hackathons", "AI workshops", "Data Quest", "Speaker sessions", "Machine learning", "Ideathons", "Research", "Student led"];
+      var m = document.getElementById("marquee");
+      var html = words.map(function (w) { return "<span>" + w + "</span>"; }).join("");
+      m.innerHTML = html + html;
+
+      /* ---------- board ---------- */
+      var DEPT = {
+        Leadership: "var(--pink)", Technical: "var(--sky)", Management: "var(--yellow)", Media: "var(--lilac)",
+        Design: "var(--orange)", Outreach: "var(--mint)", Research: "var(--sky)", Strategy: "var(--yellow)",
+        Finance: "var(--pink)", Content: "var(--orange)", Sponsorship: "var(--mint)"
+      };
+      var BOARD = {
+        cur: [
+          ["Ettneni Pranith Varma", "Chairperson", "Leadership"], ["Rashi Rai", "Vice-Chairperson", "Leadership"], ["Yasheka Sharma", "General Secretary", "Leadership"],
+          ["Surya Pratap Singh", "Head of Technical Department", "Technical"], ["Mayank Sharma", "Sub-Head of Technical Department", "Technical"], ["Rachit Patel", "Sub-Head of Technical Department", "Technical"], ["Shivangi Mohanty", "Sub-Head of Technical Department", "Technical"],
+          ["Aradhya Kumar Rao", "Head of Machine Learning Team", "Technical"],
+          ["Kapish Verma", "Head of Management Department", "Management"], ["Deepika Malani", "Head of Management Department", "Management"], ["Sarthak Khandelwal", "Sub-Head of Management Department", "Management"], ["Mohit", "Sub-Head of Management Department", "Management"],
+          ["Ashrith Jangam", "Head of Media Department", "Media"], ["Naqi Haider Rizvi", "Sub-Head of Media Department", "Media"], ["Ojas Ruhil", "Sub-Head of Media Department", "Media"],
+          ["Shinjini Chaudhuri", "Head of Design Department", "Design"], ["Vaibhavi Singh", "Sub-Head of Design Department", "Design"],
+          ["Bindan M", "Head of Public Relations and Outreach Department", "Outreach"], ["Ritika Khatri", "Sub-Head of Public Relations and Outreach Department", "Outreach"], ["Anshika", "Sub-Head of Public Relations and Outreach Department", "Outreach"], ["Krrish Agrawal", "Co-Head of Public Relations and Outreach Department", "Outreach"],
+          ["K.V.S Gowtham", "Head of Research Department", "Research"],
+          ["Parvathaneni Santhan Sivaji", "Head of Strategy Department", "Strategy"],
+          ["Pihu Chowdhary", "Head of Finance Department", "Finance"]
+        ],
+        prev: [
+          ["Arya Prakash", "Chairperson", "Leadership"], ["Rohan Pandey", "Vice-Chairperson", "Leadership"], ["Aditya Siwach", "General Secretary", "Leadership"],
+          ["Dhruv Agarwal", "Head of Operations & Management Department", "Management"], ["Mansimer Singh", "Sub-Head of Operations & Management Department", "Management"],
+          ["Sumukh Gupta", "Head of Media Department", "Media"], ["Siddhi Sanap", "Sub-Head of Media Department", "Media"],
+          ["Pranith Varma", "Head of Design Department", "Design"], ["Aradhya Kumar Rao", "Sub-Head of Design Department", "Design"],
+          ["Mayank Singh", "Head of Machine Learning Department", "Technical"], ["Jatin Sharma", "Head of Statistics Department", "Technical"],
+          ["Suhani Rastogi", "Head of Content Department", "Content"], ["Praney Wadhwa", "Head of PR & Outreach", "Outreach"],
+          ["Parvathaneni Santhan Sivaji", "Head of Sponsorship Team", "Sponsorship"]
+        ]
+      };
+      /* Add photos here once they are published with the page, e.g. "Rashi Rai": "photos/rashi.jpg" */
+      var PHOTOS = {};
+      var tenure = "cur", filter = "All";
+      var peopleEl = document.getElementById("people"), chipsEl = document.getElementById("chips");
+      function initials(n) {
+        var p = n.replace(/\./g, "").split(/\s+/).filter(Boolean);
+        return (p[0][0] + (p.length > 1 ? p[p.length - 1][0] : "")).toUpperCase();
+      }
+      function renderChips() {
+        var seen = ["All"];
+        BOARD[tenure].forEach(function (r) { if (seen.indexOf(r[2]) < 0) seen.push(r[2]); });
+        if (seen.indexOf(filter) < 0) filter = "All";
+        chipsEl.innerHTML = seen.map(function (d) {
+          return '<button type="button" class="chip" data-d="' + d + '" aria-pressed="' + (d === filter) + '">' + d + "</button>";
+        }).join("");
+      }
+      function renderPeople() {
+        var rows = BOARD[tenure].filter(function (r) { return filter === "All" || r[2] === filter; });
+        peopleEl.innerHTML = rows.map(function (r) {
+          var c = DEPT[r[2]] || "var(--lilac)";
+          return '<article class="card person"><div class="avatar" style="background:' + c + '">' + (PHOTOS[r[0]] ? '<img src="' + PHOTOS[r[0]] + '" alt="' + r[0] + '" loading="lazy">' : initials(r[0])) + '</div><div class="meta"><h4>' + r[0] + "</h4><p>" + r[1] + '</p><span class="dept" style="background:' + c + '">' + r[2] + "</span></div></article>";
+        }).join("");
+        peopleEl.querySelectorAll(".avatar img").forEach(function (im) {
+          im.addEventListener("error", function () { im.replaceWith(document.createTextNode(initials(im.alt))); });
+        });
+      }
+      function setTenure(t) {
+        tenure = t; filter = "All";
+        document.getElementById("t-cur").setAttribute("aria-pressed", t === "cur");
+        document.getElementById("t-prev").setAttribute("aria-pressed", t === "prev");
+        renderChips(); renderPeople();
+      }
+      document.getElementById("t-cur").addEventListener("click", function () { setTenure("cur"); });
+      document.getElementById("t-prev").addEventListener("click", function () { setTenure("prev"); });
+      chipsEl.addEventListener("click", function (e) {
+        var b = e.target.closest(".chip"); if (!b) return;
+        filter = b.getAttribute("data-d"); renderChips(); renderPeople();
+      });
+      renderChips(); renderPeople();
+
+      /* ---------- events ---------- */
+      var EVENTS = [
+        { m: "Sep", y: "2026", tag: "Workshop", c: "var(--mint)", t: "No Code AI Workshop", p: ["Google Crowdsource joined DSS to introduce freshers to crowdsourcing through an interactive session. Students saw how collective contributions improve technology and AI, and got to take part themselves."] },
+        { m: "Mar", y: "2026", tag: "Competition", c: "var(--pink)", t: "Data Quest 2.0", p: ["Season two took its theme from Stranger Things. Participants worked through rounds of data tasks and puzzles that tested analysis, creativity and teamwork, with the Upside Down as the backdrop."] },
+        { m: "Nov", y: "2025", tag: "Speaker session", c: "var(--sky)", t: "DSS x Google Crowdsource", p: ["The university's first speaker session, with Crowdsource by Google India. Harshit Goyal of Google's AI & Data Operations covered community-driven AI, Responsible AI and adversarial prompting."] },
+        { m: "Mar", y: "2025", tag: "Conference", c: "var(--yellow)", t: "Emerging Data Science Paradigm", p: ["Day 1 of the International Conference on Emerging Data Science Paradigm brought global experts together on the future of AI, with keynotes on human-centered computing and deep learning and a panel on generative AI.", "Day 2 added keynotes on GenAI, data engineering and HCI from AWS, AtriCure and NSUT, plus student workshops, project showcases and a valedictory ceremony."] },
+        { m: "Jan", y: "2025", tag: "Competition", c: "var(--orange)", t: "Data Quest", p: ["A Squid Game inspired contest. Each round put analytical skill, creativity and teamwork under pressure while building data literacy and problem solving."] },
+        { m: "Nov", y: "2024", tag: "Talent showcase", c: "var(--lilac)", t: "Bennett's Got Data", p: ["The first edition, modelled on a talent show. Data science enthusiasts at every level presented their own projects, insights and skills in a friendly competition."] }
+      ];
+      /* ---------- journey ---------- */
+      (function () {
+        var jEl = document.getElementById("journey"), rowsEl = document.getElementById("jrows"), svg = document.getElementById("jpath");
+        var base = document.getElementById("jbase"), walk = document.getElementById("jwalk"), walker = document.getElementById("jwalker");
+        var list = EVENTS.slice().reverse(), html = "";
+        list.forEach(function (e, i) {
+          html += '<div class="jrow ' + (i % 2 === 0 ? "left" : "right") + '"><article class="jcard"><div class="jstamp" style="background:' + e.c + '"><b>' + e.m + " " + e.y + "</b><span>" + e.tag + '</span></div><div class="jbody"><h3>' + e.t + "</h3>" +
+            e.p.map(function (x) { return "<p>" + x + "</p>"; }).join("") + '</div></article><span class="jnode" style="--c:' + e.c + '"></span></div>';
+        });
+        html += '<div class="jrow ' + (list.length % 2 === 0 ? "left" : "right") + '"><article class="jcard jnext"><div class="jbody"><h3>Next stop: you.</h3><p>New events are announced in the WhatsApp group and on Instagram first. <a href="#connect">Grab a seat</a>.</p></div></article><span class="jnode" style="--c:var(--mint)"></span></div>';
+        rowsEl.innerHTML = html;
+        var nodes = [], pts = [], L = 1, cur = 0, target = 0, running = false, wasMoving = null;
+        function face(flag) {
+          if (flag === wasMoving) return; wasMoving = flag;
+          var sv = walker.querySelector(".dotty"); if (sv) sv.setAttribute("class", "dotty " + (flag ? "happy" : "idle"));
+        }
+        function targetP() { var r = jEl.getBoundingClientRect(); return Math.max(0, Math.min(1, (window.innerHeight * .55 - r.top) / r.height)); }
+        function draw() {
+          var pt = walk.getPointAtLength(cur * L), half = walker.offsetWidth / 2 || 30;
+          walk.style.strokeDashoffset = L * (1 - cur);
+          walker.style.transform = "translate(" + (pt.x - half) + "px," + (pt.y - half * 2.4) + "px)";
+          nodes.forEach(function (n, i) { n.classList.toggle("done", pt.y >= pts[i].y - 4); });
+        }
+        function tick() {
+          var d = target - cur;
+          if (reduce || Math.abs(d) < .0006) { cur = target; face(false); draw(); running = false; return; }
+          cur += d * .14; face(true); draw(); requestAnimationFrame(tick);
+        }
+        function kick() { target = targetP(); if (!running) { running = true; requestAnimationFrame(tick); } }
+        function layout() {
+          nodes = Array.prototype.slice.call(rowsEl.querySelectorAll(".jnode"));
+          var cr = jEl.getBoundingClientRect(), w = cr.width, h = cr.height;
+          pts = nodes.map(function (n) { var r = n.getBoundingClientRect(); return { x: r.left - cr.left + r.width / 2, y: r.top - cr.top + r.height / 2 }; });
+          var all = [{ x: pts[0].x, y: 8 }].concat(pts), d = "M" + all[0].x + " " + all[0].y;
+          for (var i = 1; i < all.length; i++) { var a = all[i - 1], b = all[i], my = (a.y + b.y) / 2; d += " C" + a.x + " " + my + " " + b.x + " " + my + " " + b.x + " " + b.y; }
+          svg.setAttribute("viewBox", "0 0 " + w + " " + h); base.setAttribute("d", d); walk.setAttribute("d", d);
+          L = walk.getTotalLength(); walk.style.strokeDasharray = L; target = targetP(); cur = target; draw();
+        }
+        window.addEventListener("scroll", kick, { passive: true });
+        window.addEventListener("resize", layout);
+        window.addEventListener("load", layout);
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
+        if (window.ResizeObserver) new ResizeObserver(layout).observe(rowsEl);
+        layout();
+      })();
+
+      /* ---------- countdown ---------- */
+      var cd = document.getElementById("countdown");
+      var target = new Date("2026-10-26T00:00:00+05:30").getTime();
+      function tick() {
+        var d = target - Date.now();
+        if (d <= 0) { cd.textContent = "Date has passed. Follow @dss_bu for what's next."; return false; }
+        var days = Math.floor(d / 864e5), h = Math.floor(d % 864e5 / 36e5), mi = Math.floor(d % 36e5 / 6e4);
+        cd.textContent = days + "d " + h + "h " + mi + "m to go"; return true;
+      }
+      if (tick()) setInterval(tick, 30000);
+
+      /* ---------- prediction game ---------- */
+      var g = document.getElementById("guess"), gOut = document.getElementById("guessOut"), jOut = document.getElementById("judgeOut");
+      var verdict = document.getElementById("verdict"), score = document.getElementById("score"), btn = document.getElementById("reveal");
+      var rounds = 0, hits = 0;
+      g.addEventListener("input", function () { gOut.textContent = g.value; jOut.textContent = "?"; verdict.className = "verdict"; verdict.textContent = "Locked in at " + g.value + ". Ready when you are."; });
+      btn.addEventListener("click", function () {
+        btn.disabled = true; g.disabled = true; verdict.className = "verdict"; verdict.textContent = "The judges are conferring...";
+        var final = 1 + Math.floor(Math.random() * 10), n = 0;
+        var spin = setInterval(function () {
+          jOut.textContent = 1 + Math.floor(Math.random() * 10); n++;
+          if (n >= (reduce ? 1 : 12)) {
+            clearInterval(spin); jOut.textContent = final; rounds++;
+            var diff = Math.abs(final - Number(g.value));
+            if (diff === 0) { hits++; verdict.className = "verdict win"; verdict.textContent = "DSS Wala Latent! Exact match."; }
+            else if (diff === 1) verdict.textContent = "So close. Off by just one point.";
+            else verdict.textContent = "Off by " + diff + ". The judges are a tough crowd.";
+            score.textContent = "Rounds: " + rounds + " · Exact matches: " + hits;
+            btn.disabled = false; g.disabled = false; btn.textContent = "Go again";
+          }
+        }, 70);
+      });
+
+      /* ---------- copy email ---------- */
+      var copyBtn = document.getElementById("copyMail"), mail = document.getElementById("mailText");
+      copyBtn.addEventListener("click", function () {
+        var done = function () { copyBtn.textContent = "Copied"; setTimeout(function () { copyBtn.textContent = "Copy email"; }, 1600); };
+        var fallback = function () {
+          var r = document.createRange(); r.selectNodeContents(mail);
+          var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+          copyBtn.textContent = "Press Ctrl+C";
+        };
+        try { navigator.clipboard.writeText(mail.textContent).then(done, fallback); } catch (e) { fallback(); }
+      });
+
+      /* ---------- stat counters ---------- */
+      var stats = document.querySelectorAll("[data-count]");
+      if (!reduce && "IntersectionObserver" in window) {
+        var io = new IntersectionObserver(function (es) {
+          es.forEach(function (en) {
+            if (!en.isIntersecting) return; io.unobserve(en.target);
+            var el = en.target, end = Number(el.getAttribute("data-count")), suf = el.getAttribute("data-suffix") || "", t0 = performance.now();
+            (function step(t) {
+              var p = Math.min(1, (t - t0) / 1100), e = 1 - Math.pow(1 - p, 3);
+              el.textContent = Math.round(end * e) + suf;
+              if (p < 1) requestAnimationFrame(step);
+            })(t0);
+          });
+        }, { threshold: .6 });
+        stats.forEach(function (s) { io.observe(s); });
+      }
+
+      /* ---------- mascot: Dotty ---------- */
+      function mascotSVG(mood) {
+        var ink = "#17123B", L = 'stroke="var(--line)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"';
+        return '<span class="bob"><svg class="dotty ' + mood + '" viewBox="0 0 120 134" role="img" aria-label="Dotty, the society mascot">' +
+          '<line x1="60" y1="30" x2="60" y2="12" ' + L + ' fill="none"/><circle cx="60" cy="9" r="7" fill="#FF5C93" stroke="var(--line)" stroke-width="3.5"/>' +
+          '<ellipse cx="42" cy="126" rx="13" ry="6" fill="' + ink + '"/><ellipse cx="78" cy="126" rx="13" ry="6" fill="' + ink + '"/>' +
+          '<g class="arm-l"><path d="M14 84 Q2 90 6 104" fill="none" ' + L + '/><circle cx="6" cy="106" r="6" fill="#FFD23F" stroke="var(--line)" stroke-width="3.5"/></g>' +
+          '<g class="arm-r"><path d="M106 84 Q118 78 116 64" fill="none" ' + L + '/><circle cx="116" cy="61" r="6" fill="#FFD23F" stroke="var(--line)" stroke-width="3.5"/></g>' +
+          '<path d="M60 28 C94 28 110 52 108 82 C106 110 86 125 60 125 C34 125 14 110 12 82 C10 52 26 28 60 28 Z" fill="#FFD23F" ' + L + '/>' +
+          '<path d="M30 58 Q33 45 47 40" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".7"/>' +
+          '<circle cx="31" cy="90" r="7" fill="#FF5C93" opacity=".55"/><circle cx="89" cy="90" r="7" fill="#FF5C93" opacity=".55"/>' +
+          '<g class="e e-idle"><circle cx="45" cy="74" r="7" fill="' + ink + '"/><circle cx="75" cy="74" r="7" fill="' + ink + '"/><circle cx="47.5" cy="71" r="2.2" fill="#fff"/><circle cx="77.5" cy="71" r="2.2" fill="#fff"/></g>' +
+          '<g class="e e-happy" fill="none" stroke="' + ink + '" stroke-width="5" stroke-linecap="round"><path d="M37 76 Q45 63 53 76"/><path d="M67 76 Q75 63 83 76"/></g>' +
+          '<g class="e e-ouch" fill="none" stroke="' + ink + '" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M38 66 L52 73 L38 80"/><path d="M82 66 L68 73 L82 80"/></g>' +
+          '<g class="e e-sad"><circle cx="45" cy="76" r="6" fill="' + ink + '"/><circle cx="75" cy="76" r="6" fill="' + ink + '"/><path d="M36 67 L52 61 M84 67 L68 61" stroke="' + ink + '" stroke-width="4" stroke-linecap="round" fill="none"/><path d="M38 86 Q34 94 38 97 Q42 94 38 86 Z" fill="#7FD1FF"/></g>' +
+          '<path class="m m-idle" d="M50 96 Q60 104 70 96" fill="none" stroke="' + ink + '" stroke-width="5" stroke-linecap="round"/>' +
+          '<g class="m m-happy"><path d="M46 92 Q60 116 74 92 Z" fill="' + ink + '" stroke="' + ink + '" stroke-width="3" stroke-linejoin="round"/><path d="M54 104 Q60 99 66 104 Q60 110 54 104 Z" fill="#FF5C93"/></g>' +
+          '<ellipse class="m m-ouch" cx="60" cy="101" rx="6" ry="8" fill="' + ink + '"/>' +
+          '<path class="m m-sad" d="M50 106 Q60 96 70 106" fill="none" stroke="' + ink + '" stroke-width="5" stroke-linecap="round"/>' +
+          "</svg></span>";
+      }
+      document.querySelectorAll("[data-dotty]").forEach(function (el) { el.innerHTML = mascotSVG(el.getAttribute("data-dotty") || "idle"); });
+      var heroMascot = document.getElementById("heroMascot"), heroBubble = document.getElementById("heroBubble"), dTimer = 0;
+      var IDLE_TEXT = "Hi, I'm Dotty! Think you can spot an outlier?", CHEERS = ["Nice catch!", "Gotcha!", "Outlier gone!", "Smooth!"];
+      function setFace(mood, text) {
+        var svg = heroMascot.querySelector(".dotty"); if (!svg) return;
+        svg.setAttribute("class", "dotty"); void svg.getBoundingClientRect(); svg.setAttribute("class", "dotty " + mood);
+        heroBubble.textContent = text;
+      }
+      function dotty(mood, text, ms) {
+        setFace(mood, text); clearTimeout(dTimer);
+        if (ms === 0) return;
+        dTimer = setTimeout(function () {
+          if (mode === "play") setFace("idle", "Catch the diamonds!");
+          else if (mode === "idle") setFace("idle", IDLE_TEXT);
+        }, ms || 900);
+      }
+
+      /* ---------- hero game: Outlier Hunt ---------- */
+      var cv = document.getElementById("plot"), ctx = cv.getContext("2d");
+      var overlay = document.getElementById("overlay"), ovTitle = document.getElementById("ovTitle"), ovText = document.getElementById("ovText"), startBtn = document.getElementById("startGame");
+      var hudScore = document.getElementById("hudScore"), hudTime = document.getElementById("hudTime"), hudCombo = document.getElementById("hudCombo"), hudBest = document.getElementById("hudBest");
+      var accFill = document.getElementById("accFill"), accText = document.getElementById("accText");
+      var COLORS = ["#FFD23F", "#2EE6A6", "#7FD1FF", "#B9A6FF", "#FF9F5A"];
+      var PINK = "#FF5C93", DURATION = 30, NORMALS = 40;
+      var W = 0, H = 0, lineCol = "#17123B", A = { x: 0, y: 0 }, B = { x: 0, y: 0 }, len = 1, nx = 0, ny = 0;
+      var mode = "idle", normals = [], outliers = [], parts = [], flash = 0, flashCol = PINK;
+      var score = 0, combo = 0, caught = 0, acc = 100, tLeft = DURATION, nextSpawn = 0, last = 0, elapsed = 0;
+      var best = 0;
+      try { best = Number(localStorage.getItem("dssOutlierBest")) || 0; } catch (e) { }
+      hudBest.textContent = best;
+
+      function readTheme() { lineCol = getComputedStyle(document.documentElement).getPropertyValue("--fg").trim() || "#17123B"; }
+      function size() {
+        var dpr = window.devicePixelRatio || 1;
+        W = cv.clientWidth; H = cv.clientHeight;
+        cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        A.x = W * .07; A.y = H * .86; B.x = W * .93; B.y = H * .14;
+        var dx = B.x - A.x, dy = B.y - A.y; len = Math.sqrt(dx * dx + dy * dy); nx = -dy / len; ny = dx / len;
+      }
+      function gauss() { return (Math.random() + Math.random() + Math.random() - 1.5) / 1.5; }
+      function seed() {
+        normals = [];
+        for (var i = 0; i < NORMALS; i++) {
+          normals.push({
+            t: .06 + Math.random() * .88, dt: (Math.random() < .5 ? -1 : 1) * (.012 + Math.random() * .03), off: gauss() * H * .07,
+            amp: 3 + Math.random() * 6, ph: Math.random() * 6.28, sp: .6 + Math.random() * 1.2, r: 6 + Math.random() * 5, c: COLORS[i % COLORS.length], x: 0, y: 0
+          });
+        }
+      }
+      function place(p, now) {
+        var off = p.off + Math.sin(now * p.sp + p.ph) * p.amp;
+        p.x = A.x + (B.x - A.x) * p.t + nx * off; p.y = A.y + (B.y - A.y) * p.t + ny * off;
+      }
+      function spawnOutlier(now) {
+        for (var k = 0; k < 40; k++) {
+          var x = W * (.1 + Math.random() * .8), y = H * (.1 + Math.random() * .8);
+          var d = Math.abs((x - A.x) * nx + (y - A.y) * ny);
+          if (d > Math.min(W, H) * .2) {
+            var life = Math.max(1.5, 3.1 - elapsed * .04);
+            outliers.push({ x: x, y: y, born: now, life: life, left: life, r: 11, ph: Math.random() * 6 }); return;
+          }
+        }
+      }
+      function burst(x, y, c, n) {
+        for (var i = 0; i < n; i++) { var a = Math.random() * 6.28, s = 60 + Math.random() * 160; parts.push({ x: x, y: y, vx: Math.cos(a) * s, vy: Math.sin(a) * s, life: .5, c: c }); }
+      }
+      function setAcc(v) {
+        acc = Math.max(0, Math.min(100, v));
+        accFill.style.width = acc + "%"; accText.textContent = Math.round(acc) + "%";
+        accFill.style.background = acc > 60 ? "var(--mint)" : acc > 30 ? "var(--yellow)" : "var(--pink)";
+      }
+      function mult() { return 1 + Math.min(4, Math.floor(combo / 3)); }
+      function hud() {
+        hudScore.textContent = score; hudTime.textContent = Math.max(0, Math.ceil(tLeft)); hudCombo.textContent = "x" + mult();
+      }
+      function startGame() {
+        mode = "play"; score = 0; combo = 0; caught = 0; tLeft = DURATION; elapsed = 0; outliers = []; parts = []; nextSpawn = .8;
+        setAcc(100); seed(); hud(); overlay.hidden = true; cv.style.cursor = "crosshair"; dotty("happy", "Go go go!", 800);
+      }
+      function endGame(won) {
+        mode = "over"; overlay.hidden = false; cv.style.cursor = "";
+        var isBest = score > best;
+        if (isBest) { best = score; try { localStorage.setItem("dssOutlierBest", String(best)); } catch (e) { } }
+        hudBest.textContent = best;
+        ovTitle.textContent = won ? "Dataset cleaned" : "Model collapsed";
+        dotty(won ? "happy" : "sad", won ? "Squeaky clean data!" : "The model collapsed...", 0);
+        ovText.textContent = "Score " + score + " · " + caught + " outlier" + (caught === 1 ? "" : "s") + " caught" + (isBest && score > 0 ? " · new best" : "") + ".";
+        startBtn.textContent = "Play again";
+      }
+      function lose(kind, x, y) {
+        combo = 0; flash = .35; flashCol = PINK; setAcc(acc - (kind === "miss" ? 10 : 7)); if (acc <= 0) endGame(false);
+      }
+      startBtn.addEventListener("click", startGame);
+      cv.addEventListener("pointerdown", function (e) {
+        if (mode !== "play") return;
+        var x = e.offsetX, y = e.offsetY, bi = -1, bd = 1e9, i, d;
+        for (i = 0; i < outliers.length; i++) { d = Math.hypot(outliers[i].x - x, outliers[i].y - y); if (d < outliers[i].r + 16 && d < bd) { bd = d; bi = i; } }
+        if (bi >= 0) {
+          var o = outliers.splice(bi, 1)[0]; combo++; caught++; score += 10 * mult(); setAcc(acc + 3);
+          burst(o.x, o.y, PINK, 14); hud(); dotty("happy", combo >= 3 ? "Combo x" + mult() + "!" : CHEERS[caught % CHEERS.length]); return;
+        }
+        bd = 1e9;
+        for (i = 0; i < normals.length; i++) { d = Math.hypot(normals[i].x - x, normals[i].y - y); if (d < normals[i].r + 8 && d < bd) { bd = d; bi = i; } }
+        if (bi >= 0) {
+          var p = normals[bi]; burst(p.x, p.y, p.c, 8); normals.splice(bi, 1);
+          normals.push({ t: p.t < .5 ? .05 : .95, dt: p.dt, off: p.off, amp: p.amp, ph: p.ph, sp: p.sp, r: p.r, c: p.c, x: 0, y: 0 });
+          dotty("ouch", "Ouch, that one was fine!"); lose("wrong"); hud();
+        }
+      });
+
+      function update(dt, now) {
+        var moving = mode !== "idle" || !reduce;
+        if (moving) normals.forEach(function (p) {
+          p.t += p.dt * dt; if (p.t < .05 || p.t > .95) { p.dt *= -1; p.t = Math.max(.05, Math.min(.95, p.t)); }
+        });
+        normals.forEach(function (p) { place(p, now / 1000); });
+        parts.forEach(function (q) { q.x += q.vx * dt; q.y += q.vy * dt; q.vx *= .93; q.vy *= .93; q.life -= dt; });
+        parts = parts.filter(function (q) { return q.life > 0; });
+        if (flash > 0) flash -= dt;
+        if (mode !== "play") return;
+        tLeft -= dt; elapsed += dt; nextSpawn -= dt;
+        if (nextSpawn <= 0) { spawnOutlier(now); nextSpawn = Math.max(.55, 1.2 - elapsed * .02); }
+        for (var i = outliers.length - 1; i >= 0; i--) {
+          outliers[i].left -= dt;
+          if (outliers[i].left <= 0) { burst(outliers[i].x, outliers[i].y, lineCol, 6); outliers.splice(i, 1); dotty("ouch", "One got away!"); lose("miss"); if (mode !== "play") break; }
+        }
+        if (mode === "play" && tLeft <= 0) { tLeft = 0; endGame(true); }
+        hud();
+      }
+      function draw(now) {
+        ctx.clearRect(0, 0, W, H);
+        ctx.strokeStyle = lineCol; ctx.lineWidth = 1; ctx.globalAlpha = .08;
+        for (var gx = 40; gx < W; gx += 40) { ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, H); ctx.stroke(); }
+        for (var gy = 40; gy < H; gy += 40) { ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(W, gy); ctx.stroke(); }
+        ctx.globalAlpha = .4; ctx.lineWidth = 2; ctx.setLineDash([8, 7]);
+        ctx.beginPath(); ctx.moveTo(A.x - 14, A.y + 14 * (A.y - B.y) / (B.x - A.x)); ctx.lineTo(B.x + 14, B.y - 14 * (A.y - B.y) / (B.x - A.x)); ctx.stroke(); ctx.setLineDash([]);
+        ctx.globalAlpha = 1; ctx.lineWidth = 2.5; ctx.strokeStyle = lineCol;
+        normals.forEach(function (p) { ctx.fillStyle = p.c; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 6.2832); ctx.fill(); ctx.stroke(); });
+        outliers.forEach(function (o) {
+          var pulse = 1 + .12 * Math.sin(now / 1000 * 9 + o.ph), s = o.r * pulse, frac = Math.max(0, o.left / o.life);
+          ctx.strokeStyle = PINK; ctx.lineWidth = 4; ctx.globalAlpha = .9;
+          ctx.beginPath(); ctx.arc(o.x, o.y, o.r + 9, -1.5708, -1.5708 + 6.2832 * frac); ctx.stroke();
+          ctx.globalAlpha = 1; ctx.lineWidth = 2.5; ctx.strokeStyle = lineCol; ctx.fillStyle = PINK;
+          ctx.beginPath(); ctx.moveTo(o.x, o.y - s); ctx.lineTo(o.x + s, o.y); ctx.lineTo(o.x, o.y + s); ctx.lineTo(o.x - s, o.y); ctx.closePath(); ctx.fill(); ctx.stroke();
+        });
+        parts.forEach(function (q) { ctx.globalAlpha = Math.max(0, q.life * 2); ctx.fillStyle = q.c; ctx.fillRect(q.x - 3, q.y - 3, 6, 6); });
+        ctx.globalAlpha = 1;
+        if (flash > 0) { ctx.globalAlpha = Math.min(.35, flash); ctx.fillStyle = flashCol; ctx.fillRect(0, 0, W, H); ctx.globalAlpha = 1; }
+      }
+      function frame(t) {
+        var dt = Math.min(.05, (t - last) / 1000 || 0); last = t;
+        update(dt, t); draw(t); requestAnimationFrame(frame);
+      }
+      window.addEventListener("resize", function () { size(); seed(); outliers = []; });
+      window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function () { setTimeout(readTheme, 50); });
+      new MutationObserver(readTheme).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+      readTheme(); size(); seed(); setAcc(100); hud();
+      requestAnimationFrame(frame);
+
+      /* ---------- scene parallax ---------- */
+      (function () {
+        var layers = document.querySelectorAll(".scene .layer"), queued = false;
+        if (reduce || !layers.length) return;
+        function upd() { queued = false; var y = Math.min(window.scrollY, 700); layers.forEach(function (l) { l.style.transform = "translateY(" + y * Number(l.getAttribute("data-k")) + "px)"; }); }
+        window.addEventListener("scroll", function () { if (!queued) { queued = true; requestAnimationFrame(upd); } }, { passive: true });
+      })();
+
+      /* ---------- the wall ---------- */
+      (function () {
+        var board = document.getElementById("wallBoard"), form = document.getElementById("wallForm"), ta = document.getElementById("wallText"), cnt = document.getElementById("wallCount");
+        var sw = document.getElementById("wallColors"), pinBtn = document.getElementById("wallPin"), downBtn = document.getElementById("wallDown"), noteEl = document.getElementById("wallNote"), statusEl = document.getElementById("wallStatus");
+        var NC = ["var(--yellow)", "var(--pink)", "var(--mint)", "var(--sky)", "var(--orange)"];
+        var colorIdx = 0, myId = null, db = null, uapi = null, owner = false, docs = [], dirty = false, prefilled = false, rid = 0, loadTimer = 0;
+        function say(t) { statusEl.textContent = t; }
+        function hash(t) { var h = 0; for (var i = 0; i < t.length; i++) h = (h * 31 + t.charCodeAt(i)) | 0; return Math.abs(h); }
+        function setColor(i) { colorIdx = i; Array.prototype.forEach.call(sw.children, function (x, k) { x.setAttribute("aria-pressed", k === i ? "true" : "false"); }); }
+        NC.forEach(function (c, i) {
+          var b = document.createElement("button"); b.type = "button"; b.className = "swatch"; b.style.background = c;
+          b.setAttribute("aria-label", "Note color " + (i + 1)); b.setAttribute("aria-pressed", i === 0 ? "true" : "false");
+          b.addEventListener("click", function () { dirty = true; setColor(i); });
+          sw.appendChild(b);
+        });
+        ta.addEventListener("input", function () { dirty = true; cnt.textContent = ta.value.length + "/140"; });
+        async function render() {
+          var my = ++rid, ids = docs.map(function (d) { return d.id; }), ps = {};
+          try { if (uapi && ids.length) ps = await uapi.profiles(ids); } catch (e) { }
+          if (my !== rid) return;
+          board.textContent = "";
+          if (!docs.length) { var em = document.createElement("div"); em.className = "wall-empty"; em.textContent = "The wall is empty. Be the first to pin a note."; board.appendChild(em); return; }
+          docs.forEach(function (d) {
+            var data = d.data() || {}, n = document.createElement("article"), p = document.createElement("p"), who = document.createElement("div"), nm = document.createElement("span");
+            n.className = "pinned" + (d.id === myId ? " mine" : "");
+            n.style.background = NC[(Number(data.color) || 0) % NC.length];
+            n.style.setProperty("--r", (hash(d.id) % 9 - 4) * .8 + "deg");
+            p.textContent = String(data.text || "").slice(0, 140);
+            nm.textContent = d.id === myId ? "you" : ((ps[d.id] && ps[d.id].name) || "someone");
+            who.className = "who"; who.appendChild(nm);
+            if (owner && d.id !== myId) {
+              var rm = document.createElement("button"); rm.type = "button"; rm.className = "rm"; rm.textContent = "remove";
+              rm.addEventListener("click", function () { db.doc("wall/" + d.id).delete().catch(function () { }); });
+              who.appendChild(rm);
+            }
+            n.appendChild(p); n.appendChild(who); board.appendChild(n);
+          });
+        }
+        pinBtn.addEventListener("click", async function () {
+          var text = ta.value.trim().slice(0, 140);
+          if (!text || !db || !myId) { say("Write something first."); return; }
+          pinBtn.disabled = true; say("Pinning...");
+          try { await db.doc("wall/" + myId).set({ text: text, color: colorIdx, ts: Date.now() }); dirty = false; say("Pinned."); }
+          catch (e) { say(e && e.code === "invalid_argument" ? "Only contributors can pin notes." : e && e.code === "quota_exceeded" ? "The wall is full." : "Could not pin that. Try again in a bit."); }
+          pinBtn.disabled = false;
+        });
+        downBtn.addEventListener("click", async function () {
+          if (!db || !myId) return; downBtn.disabled = true;
+          try { await db.doc("wall/" + myId).delete(); ta.value = ""; cnt.textContent = "0/140"; dirty = false; prefilled = false; setColor(0); say("Taken down."); }
+          catch (e) { say("Could not take that down. Try again in a bit."); }
+          downBtn.disabled = false;
+        });
+        (async function () {
+          var cl = window.claude; if (!cl || !cl.use) return;
+          try { db = await cl.use("db"); uapi = await cl.use("user"); } catch (e) { db = null; }
+          if (!db) return;
+          var canWrite = true;
+          try { myId = uapi ? await uapi.id() : null; owner = uapi ? await uapi.isOwner() : false; canWrite = (uapi ? await uapi.can("data.write") : null) !== false; } catch (e) { }
+          if (myId && canWrite) { form.hidden = false; noteEl.hidden = true; }
+          else { noteEl.hidden = false; noteEl.textContent = myId ? "You can read the wall, but only contributors can pin notes." : "Sign in to pin a note. You can still read the wall."; }
+          loadTimer = setTimeout(function () { noteEl.hidden = false; noteEl.textContent = "The wall is taking a while to answer. Showing what we have so far."; }, 10000);
+          db.collection("wall").orderBy("ts", "desc").limit(60).onSnapshot(function (snap) {
+            if (!snap.metadata.fromCache) { clearTimeout(loadTimer); if (noteEl.textContent.indexOf("taking a while") === 0) noteEl.hidden = true; }
+            docs = snap.docs; var mine = null;
+            docs.forEach(function (d) { if (d.id === myId) mine = d; });
+            if (mine && !dirty && !prefilled) {
+              var md = mine.data() || {}; ta.value = String(md.text || ""); cnt.textContent = ta.value.length + "/140"; setColor(Number(md.color) || 0); prefilled = true;
+            }
+            downBtn.hidden = !mine; pinBtn.textContent = mine ? "Update my note" : "Pin it";
+            render();
+          }, function () { clearTimeout(loadTimer); noteEl.hidden = false; noteEl.textContent = "The wall could not be reached right now."; });
+        })();
+      })();
+    })();
+  </script>
+
+</body>
+
+</html>
